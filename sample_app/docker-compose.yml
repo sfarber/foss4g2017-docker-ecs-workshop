@@ -1,0 +1,25 @@
+version: '2'
+services:
+    db:
+        build: ./db
+        ports:
+            - "5432:5432"
+        #command: /bin/bash -c "while true; do sleep 5; done"
+        networks:
+            - dev-network
+        environment:
+            - POSTGRES_PASSWORD=postgres
+
+    app:
+        build: ./app
+        volumes:
+            - ./app:/code/
+        # command: /root/init_container.sh
+        ports:
+            - "80:80"
+        networks:
+            - dev-network
+
+networks:
+    dev-network:
+        driver: bridge
