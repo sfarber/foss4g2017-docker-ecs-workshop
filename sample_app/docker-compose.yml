@@ -16,9 +16,19 @@ services:
             - ./app:/code/
         # command: /root/init_container.sh
         ports:
+            - "81:80"
+        networks:
+            - dev-network
+
+    web:
+        build: ./web
+        volumes:
+            - ./web:/usr/share/nginx/html:ro
+        ports:
             - "80:80"
         networks:
             - dev-network
+
 
 networks:
     dev-network:
