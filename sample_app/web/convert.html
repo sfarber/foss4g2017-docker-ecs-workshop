@@ -1,2 +1,51 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	    <!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	</head>
+	<body>
+		<h1>Convert Coordinates</h1>
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Source CRS (2249, 4326, etc)" id="source"></input>
+			<input type="text" class="form-control" placeholder="Target CRS (2249, 4326, etc)" id="target"></input>
+		</div>
+		<div class="input-group">
+			<textarea class="form-control" id="geojson" rows="3">{"type":"Point","coordinates":[-48.23456,20.12345]}</textarea>
+			<button type="button" id="send" class="btn btn-primary">Convert</button>
+		</div>
+		<br/><br/>
+
+		<h1>Response</h1>
+		<div class="input-group">
+			<h5 id="response"></h5>
+		</div>
+
+		<!-- jQuery first, then Tether, then Bootstrap JS. -->
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.12/URI.min.js" crossorigin="anonymous"></script>
+
+		<script>
+		var uri = URI(document.location.href);
+		var url = "//" + uri.host() + ":81/sampleapp"
+		$(document).ready(function() {
+			$('#send').on('click',function() {
+				$.ajax({
+					"url" : url + "?source=" + $('#source').val() + "&target=" + $('#target').val(),
+					"data" : $('#geojson').val(),
+					"method" : "POST"
+				}).then(function(data, status, xhr) {
+					$('#response').html(JSON.stringify(data));
+				});
+			});
+		});
+		</script>
+
+	</body>
 </html>
