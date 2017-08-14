@@ -1,7 +1,7 @@
 #!/bin/bash
 REPO_NAME=sampleapp-app
-REPO_URL=015204734367.dkr.ecr.us-east-1.amazonaws.com
-cmd=$( aws ecr get-login --region us-east-1 )
+REPO_URL=$( aws ecr get-authorization-token  | grep Endpoint | cut -d'"' -f 4 | sed -e 's/https:\/\///' )
+cmd=$( aws ecr get-login --region us-east-1)
 $cmd
 docker build -t $REPO_NAME:latest .
 docker tag $REPO_NAME:latest $REPO_URL/$REPO_NAME:latest
