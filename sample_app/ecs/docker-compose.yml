@@ -11,6 +11,8 @@ services:
 
     app:
         image: 965171419244.dkr.ecr.us-east-1.amazonaws.com/sampleapp-app
+        links:
+            - db
         ports:
             - "81:80"
         networks:
@@ -22,6 +24,8 @@ services:
             - "80:80"
         networks:
             - dev-network
+        environment:
+            - DEPLOY=1
 
 
 networks:
