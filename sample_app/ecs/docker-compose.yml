@@ -1,0 +1,29 @@
+version: '2'
+services:
+    db:
+        image: 965171419244.dkr.ecr.us-east-1.amazonaws.com/sampleapp-db
+        ports:
+            - "5432:5432"
+        networks:
+            - dev-network
+        environment:
+            - POSTGRES_PASSWORD=postgres
+
+    app:
+        image: 965171419244.dkr.ecr.us-east-1.amazonaws.com/sampleapp-app
+        ports:
+            - "81:80"
+        networks:
+            - dev-network
+
+    web:
+        image: 965171419244.dkr.ecr.us-east-1.amazonaws.com/sampleapp-web
+        ports:
+            - "80:80"
+        networks:
+            - dev-network
+
+
+networks:
+    dev-network:
+        driver: bridge
