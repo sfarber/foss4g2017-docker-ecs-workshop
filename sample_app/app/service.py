@@ -21,7 +21,7 @@ class Handler(object):
 
 		conn = psycopg2.connect("dbname='sampleapp' user='sampleapp' host='db' password='sampleapp'")
 		cur = conn.cursor()
-		cur.execute("""
+		sql = """
 SELECT st_asgeojson(
 	st_transform(
 		st_setsrid(
@@ -30,12 +30,16 @@ SELECT st_asgeojson(
 		)
 		, %s
 	)
-)""",
+)"""
+		print(sql)
+
+		cur.execute(sql,
 		(
 			rawpostdata,
 			int(source),
 			int(target)
 		))
+
 		res = cur.fetchone()
 		resp.body= res[0]
 
